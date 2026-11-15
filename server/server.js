@@ -89,6 +89,9 @@ function sendJson(res, statusCode, payload) {
   res.writeHead(statusCode, {
     'Content-Type': 'application/json; charset=utf-8',
     'Cache-Control': 'no-store',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
   });
   res.end(JSON.stringify(payload, null, 2));
 }
@@ -96,6 +99,16 @@ function sendJson(res, statusCode, payload) {
 const server = http.createServer(async (req, res) => {
   const parsed = url.parse(req.url || '/', true);
   const pathname = parsed.pathname || '/';
+
+  // Handle CORS Preflight
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    });
+    return res.end();
+  }
 
   if (pathname === '/api/firms/status') {
     const configured = isValidMapKey(MAP_KEY);
@@ -127,6 +140,27 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  if (pathname === '/api/firms/availability') {
+    if (!isValidMapKey(MAP_KEY)) {
+      return sendJson(res, 503, {
+        error: 'NASA_FIRMS_MAP_KEY not configured.',
+      });
+    }
+    try {
+      const availRaw = await fetchHttpsText(
+        `https://firms.modaps.eosdis.nasa.gov/api/data_availability/csv/${MAP_KEY}/all`
+      );
+      res.writeHead(200, {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600',
+        'Access-Control-Allow-Origin': '*',
+      });
+      return res.end(availRaw);
+    } catch (err) {
+      return sendJson(res, 502, { error: err.message });
+    }
+  }
+
   if (pathname === '/api/firms/area') {
     if (!isValidMapKey(MAP_KEY)) {
       return sendJson(res, 503, {
@@ -144,7 +178,11 @@ const server = http.createServer(async (req, res) => {
     const cacheKey = `${source}:${bbox}:${dayRange}:${dateParam}`;
     const cached = responseCache.get(cacheKey);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-      res.writeHead(200, { 'Content-Type': 'text/csv; charset=utf-8', 'X-CLEO-Cache': 'HIT' });
+      res.writeHead(200, {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'X-CLEO-Cache': 'HIT',
+        'Access-Control-Allow-Origin': '*',
+      });
       return res.end(cached.csv);
     }
 
@@ -155,7 +193,11 @@ const server = http.createServer(async (req, res) => {
     try {
       const csvData = await fetchHttpsText(firmsUrl);
       responseCache.set(cacheKey, { timestamp: Date.now(), csv: csvData });
-      res.writeHead(200, { 'Content-Type': 'text/csv; charset=utf-8', 'X-CLEO-Cache': 'MISS' });
+      res.writeHead(200, {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'X-CLEO-Cache': 'MISS',
+        'Access-Control-Allow-Origin': '*',
+      });
       return res.end(csvData);
     } catch (err) {
       return sendJson(res, 502, { error: `Failed to retrieve NASA FIRMS data: ${err.message}` });
