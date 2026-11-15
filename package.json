@@ -1,0 +1,21 @@
+{
+  "name": "cleo-earth-fire-intelligence",
+  "version": "1.0.0",
+  "description": "CLEO — Unified Earth Fire Intelligence & Historical Burning Activity Platform (2026 NASA Space Apps Challenge)",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "python3 tests/test_cleo_engine.py",
+    "check:server": "node --check server/server.js"
+  },
+  "keywords": [
+    "nasa-space-apps-2026",
+    "nasa-firms",
+    "modis",
+    "viirs",
+    "harmonization",
+    "active-fire",
+    "geospatial"
+  ],
+  "license": "MIT"
+}
