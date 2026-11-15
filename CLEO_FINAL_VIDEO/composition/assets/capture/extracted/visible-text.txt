@@ -1,0 +1,449 @@
+[span] CLEO
+[span] MODIS C6.1 + VIIRS C2 HARMONIZER
+[span] 2026-11-15 // 03:53:57 UTC
+[p] Deep space satellite intelligence • 26 years of unified Earth burning observations
+[span] SOURCE: VERIFIED NASA FIRMS ARCHIVE (70 HOTSPOTS + DECADAL SERIES)
+[span] ⚡ Live Satellite Stream
+[span] Guided 9-Step Demo
+[button] 1. Overview
+[button] 2. Explore Map & AOI
+[button] 3. Fire Calendar
+[button] 4. Historical Analysis
+[button] 5. Sensor Comparison
+[button] 6. Anomaly Intelligence
+[button] 7. Methodology
+[button] 8. Data Sources & Export
+[strong] [SYNTHETIC DEMONSTRATION FIXTURE ACTIVE]
+[span] Algorithmic calibration records are currently enabled for UI stress-testing. Synthetic records are NEVER labelled as NASA data, are excluded from authentic NASA exports, and must not be interpreted as real satellite observations.
+[button] Return to Verified NASA Archive
+[span] STEP 1/9
+[span] Global Fire Intelligence Overview
+[span] — Inspecting harmonized MODIS C6.1 and VIIRS C2 active-fire metrics across verified regions.
+[button] Previous
+[button] Next Step
+[button] Close Tour
+[span] Active Context:
+[span] Global Verified Archive
+[span] All Sensors (Harmonized)
+[span] 0.25° Grid
+[span] Filters & Sensor Controls
+[span] SHOW ▾
+[label] Area of Interest (AOI)
+[option] Global Verified Archive (-180° to 180°)
+[option] South & Southeast Asia (54°E–102°E, 5.5°N–40°N)
+[option] Peru Amazon & Andes (81.5°W–75.5°W, 8.5°S–4°S)
+[option] SE Asia & N. Australia (129°E–133°E, 13°S–10°S)
+[option] Northern, Central & Southern Africa
+[option] Europe & Mediterranean (Zakynthos / Basin)
+[option] Custom Drawn AOI (Bounding Box / Polygon)
+[label] Sensor / Platform
+[option] All Sensors (MODIS + VIIRS Harmonized)
+[option] MODIS Only (Terra + Aqua 1 km C6.1)
+[option] VIIRS Only (S-NPP + NOAA-20 + NOAA-21 375 m)
+[option] MODIS Terra (10:30 LT Morning Orbit)
+[option] MODIS Aqua (13:30 LT Afternoon Orbit)
+[option] VIIRS Suomi-NPP (Ended Nov 2, 2026)
+[option] VIIRS NOAA-20 (JPSS-1 Operational)
+[option] VIIRS NOAA-21 (JPSS-2 Operational)
+[label] Harmonized Confidence
+[option] All Valid Detections (Low + Nominal + High)
+[option] Nominal + High Only (Science Recommended)
+[option] High Confidence Only (MODIS ≥80% / VIIRS 'h')
+[label] Overpass Regime
+[option] All Overpasses (Day + Night)
+[option] Daytime Detections Only (D)
+[option] Nighttime Detections Only (N)
+[label] Spatial Grid Resolution
+[option] 0.25° Equal-Area Grid (~27.8 km, GFED4 Std)
+[option] 0.10° Fine Harmonization Grid (~11.1 km)
+[option] 0.50° Regional Synoptic Grid (~55.6 km)
+[label] Data Provenance Mode
+[option] Verified NASA FIRMS Reference Archive
+[option] Synthetic Calibration Fixture (Labelled Test)
+[button] Reset Filters
+[h1] Fire Intelligence Overview
+[p] Harmonized satellite active-fire intelligence computed from verified NASA FIRMS observations.
+[span] ACTIVE AOI:
+[strong] Global Verified Archive
+[span] PERIOD:
+[strong] 2025-06-03 to 2026-11-13
+[span] Total Active Detections
+[span] QC VALIDATED
+[div] MODIS (1 km) +
+[div] VIIRS (375 m)
+[span] Harmonized Cell-Days
+[span] EQUAL-AREA
+[div] Harmonized 0.25° grid
+[span] Sensor Split (VIIRS / MODIS)
+[span] 2.50x
+[span] VIIRS:
+[span] MODIS:
+[div] Decadal mean ratio: 7.05x (
+[a] Majumdar 2025
+[span] Radiative Power (FRP)
+[span] 5.44 MW
+[div] 593.2
+[span] MW Total
+[div] Mean: 8.47 MW
+[span] View Detailed Sensor Breakdown & Seasonal Peak Telemetry
+[span] EXPAND TELEMETRY ▾
+[div] MODIS Platform Stream
+[div] Terra & Aqua C6.1 (1 km)
+[div] VIIRS Platform Stream
+[div] S-NPP, N20 & N21 C2 (375 m)
+[div] FRP Integration Basis
+[div] Pixel-integrated MW
+[div] Peak Burning Window:
+[strong] Mar / Aug
+[div] Regional regime peak
+[span] 3D HOLOGRAPHIC SENSING
+[h2] 3D Earth Fire Intelligence Globe & Orbital Swath Visualizer
+[p] Drag to rotate the 3D Earth, scroll to zoom, or switch to the 3D MODIS (`1 km`) vs. VIIRS (`375 m`) pixel footprint model.
+[button] 3D Earth Globe
+[button] 3D Pixel Footprint
+[button] Orbits: ON
+[button] Spin: ON
+[span] 3D ORBITAL THERMAL GLOBE
+[div] ACTIVE THERMAL PLUMES:
+[div] GOLD: MODIS (1KM) | EMBER: VIIRS (375M) | VIOLET: S-NPP
+[span] ALT: 824 KM
+[span] INC: 98.2°
+[span] SWATH: 2330 KM
+[div] SECTOR: GLOBAL 360° • THERMAL SPIKE HEIGHT = FRP (MW)
+[span] DRAG TO ROTATE • SCROLL TO ZOOM
+[h2] Decadal Sensor Harmonization (2012–2023)
+[p] VIIRS 375 m vs. MODIS 1 km annual detections (
+[a] Majumdar 2025
+[button] Inspect Hotspots on Map →
+[button] Open Calendar →
+[h2] Harmonized Spatial Grid Cells (Top Active Equal-Area Cells)
+[p] Spherical equal-area aggregation ($A = R^2 \Delta\lambda |\sin\phi_2 - \sin\phi_1|$) prevents 375 m pixel cluster inflation. Click to expand cell table.
+[span] SHOW TOP CELLS ▾
+[div] G_-11.75_131.00
+[span] (756.92 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 126.1 MW
+[div] 7.93 / 1k km²
+[div] G_-11.75_130.75
+[span] (756.92 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 93.1 MW
+[div] 5.28 / 1k km²
+[div] G_35.00_5.50
+[span] (632.05 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 5.9 MW
+[div] 6.33 / 1k km²
+[div] G_28.25_67.25
+[span] (679.93 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 20.1 MW
+[div] 4.41 / 1k km²
+[div] G_-10.00_32.25
+[span] (761.32 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 54.9 MW
+[div] 3.94 / 1k km²
+[div] G_-7.00_-76.75
+[span] (767.21 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 17.8 MW
+[div] 2.61 / 1k km²
+[div] G_-7.50_-79.50
+[span] (766.38 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 19.0 MW
+[div] 2.61 / 1k km²
+[div] G_-4.75_-80.75
+[span] (770.25 km²)
+[div] MODIS:
+[div] | VIIRS:
+[div] | Cell-Days:
+[div] 40.4 MW
+[div] 2.6 / 1k km²
+[h2] Interactive Global Fire Map & Polygon AOI Inspector
+[p] Distinguishing 1 km MODIS footprints (amber squares) and 375 m VIIRS detections (ember circles) with local ray-casting polygon AOI filtering.
+[button] MODIS Layer: ON
+[button] VIIRS Layer: ON
+[button] Equal-Area Grid: ON
+[button] FRP Intensity Rings: OFF
+[button] Basemap: Dark Gray
+[button] Draw BBox AOI
+[button] Draw Polygon AOI
+[button] Clear AOI
+[span] AOI MODE:
+[strong] GLOBAL_ARCHIVE
+[span] API BBOX:
+[strong] [-180.00, -90.00, 180.00, 90.00]
+[span] BBOX DETECTIONS:
+[span] EXACT POLYGON:
+[span] EXCLUDED OUTSIDE:
+[div] Click any hotspot marker or equal-area cell for full telemetry.
+[strong] MODIS (1 km)
+[span] Terra / Aqua C6.1
+[strong] VIIRS (375 m)
+[span] NOAA-20 / NOAA-21 C2
+[strong] VIIRS S-NPP
+[span] Archive
+[strong] Harmonized Cell
+[span] Radius scales with FRP (MW)
+[h3] Hotspot Telemetry Inspector
+[span] SELECT HOTSPOT
+[p] Select any MODIS diamond or VIIRS circle on the map (or from the table below) to inspect its normalized and native satellite attributes.
+[h4] Filtered Hotspot Feed (
+[h2] Historical Burning Activity Calendar
+[p] Multi-perspective temporal harmonization across Annual (Year × Month), Monthly (Daily Sensor Split), and Pre-VIIRS vs. Overlap eras.
+[label] CALENDAR DATASET:
+[option] Active Filtered Hotspot Calendar (2025–2026 Verbatim NASA FIRMS)
+[option] Mediterranean 10-Year Seasonal Cohort (2016–2025 VIIRS S-NPP, MDPI 2026)
+[option] Indian Landmass 12-Year Fire-Year Regimes (2012–2023 VIIRS vs MODIS, Sci. Rep. 2025)
+[label] INTENSITY METRIC:
+[option] Harmonized Active Cell-Days (Recommended)
+[option] Normalized Spatial Density (Detections / 1,000 km²)
+[option] Combined Sensor Detections (Stratified)
+[option] Total Fire Radiative Power (MW)
+[strong] SENSOR HARMONIZATION NOTICE:
+[div] Raw detection counts are never presented as equivalent across MODIS (`1 km`) and VIIRS (`375 m`). Use
+[strong] Harmonized Active Cell-Days
+[strong] Normalized Spatial Density
+[div] when comparing Pre-VIIRS (`2000–2011`) and Overlap (`2012–2026`) periods.
+[span] Space Gradient Intensity:
+[span] 0 (Void)
+[span] Low (Indigo)
+[span] Nominal (Violet)
+[span] Elevated (Ember)
+[span] Peak (Solar Gold)
+[h3] A. Annual Burning Activity Matrix (Months Across Years)
+[p] Click any year-month cell to inspect daily activity below.
+[span] Metric: Harmonized Active Cell-Days
+[h3] B. Monthly Daily Burning Activity Calendar
+[p] Each day displays MODIS count, VIIRS count, unique active spatial cells, and integrated FRP (MW).
+[label] MONTH:
+[option] 2026-11 (Nov 2026 — S-NPP Transition & N20/N21/MODIS)
+[option] 2025-06 (Jun 2025 — Peru MODIS & South Asia/Global VIIRS)
+[h3] C. Historical Era & Seasonal Regime Comparison
+[p] Comparing Pre-VIIRS (`2000–2011`), S-NPP+MODIS Overlap (`2012–2025`), and JPSS Constellation Era (`Nov 2026+`).
+[h4] Selected Day / Cell Detail
+[div] Click any active day in the Monthly Calendar to inspect its sensor split and FRP statistics.
+[h2] Multi-Decade Historical Fire Pattern & Trend Analysis
+[p] Year-over-year inter-comparison, Ordinary Least Squares (OLS) & Sen's non-parametric trends, and seasonal distributions.
+[h3] 1. VIIRS (375 m) vs. MODIS (1 km) Confidence-Filtered Historical Series (2012–2023)
+[p] Comparing VIIRS nominal+high confidence (`82.1%–84.2%` of total) against MODIS >50% confidence (`79.1%–81.0%` of total) (
+[a] Majumdar 2025
+[h3] 2. Seasonal & Monthly Purity Distribution (2016–2025 Verified S-NPP Cohort)
+[p] Mediterranean cohort (`469` nominal/high type-0 detections across `34` UTC dates; `79.53%` concentrated in August) (
+[a] MDPI Forests 2026
+[h3] Verified Decadal Inter-Comparison Table (2012–2023 NASA FIRMS Archive)
+[p] Complete calendar-year comparison demonstrating the `6.31x` to `7.67x` VIIRS-to-MODIS detection ratio and confidence stability (
+[a] Majumdar 2025, Table 1
+[span] TOGGLE TABLE ▾
+[th] Calendar Year
+[th] VIIRS All Fires (A)
+[th] VIIRS Nom+High (B)
+[th] VIIRS Nom+High %
+[th] MODIS All Fires (C)
+[th] MODIS >50% Conf (D)
+[th] MODIS >50% %
+[th] VIIRS Excess (A - C)
+[th] VIIRS / MODIS Ratio
+[h2] MODIS vs. VIIRS Cross-Sensor Harmonization Workbench
+[p] Configure proximity co-location thresholds, compare pixel footprint geometry ($\text{scan} \times \text{track}$), and inspect sensor-specific FRP distributions.
+[label] CO-LOCATION PROXIMITY THRESHOLD:
+[option] 1.0 km (Strict Nadir Sub-Pixel)
+[option] 2.0 km (Standard MODISScan Overlap)
+[option] 5.0 km (Fire Complex Perimeter)
+[h3] NASA MODIS Collection 6.1
+[span] 1,000 m Nadir
+[p] Terra (`MOD14`, since Nov 2000) & Aqua (`MYD14`, since Jul 2002) (
+[a] Spec
+[dt] Active Filtered Detections:
+[dt] Mean Pixel Footprint:
+[dd] 1.57 km²
+[dt] Median / Total FRP:
+[dd] 12.55 / 334.7 MW
+[dt] Confidence Scale:
+[dd] Numeric 0–100%
+[dt] Primary Brightness Band:
+[dd] Ch 21/22 (~3.96 µm)
+[h3] NASA/NOAA VIIRS 375 m C2
+[span] 375 m Nadir
+[p] Suomi-NPP (`2012–2026-11-02`), NOAA-20 (`2018+`), NOAA-21 (`2024+`) (
+[a] Spec
+[dt] Active Filtered Detections:
+[dt] Mean Pixel Footprint:
+[dd] 0.22 km²
+[dt] Median / Total FRP:
+[dd] 4.30 / 262.7 MW
+[dt] Confidence Scale:
+[dd] Categorical (l, n, h)
+[dt] Primary Brightness Band:
+[dd] I4 (3.55–3.93 µm) + M13
+[h3] Cross-Sensor Harmonization
+[span] 0.25° Grid
+[p] Spherical equal-area cell-day reconciliation & proximity matching
+[dt] Raw VIIRS / MODIS Ratio:
+[dd] 2.50x
+[dt] Cell-Day VIIRS / MODIS Ratio:
+[dd] 1.89x
+[dt] Nadir Footprint Ratio:
+[dd] 7.11x (1.0 vs 0.1406 km²)
+[dt] Same-Day Co-located Pairs:
+[dd] 0 pairs
+[dt] Calibration Policy:
+[dd] Space-Time Grid (No Fake Coeff)
+[h3] Scan × Track Pixel Footprint vs. Fire Radiative Power (MW)
+[p] Demonstrates how VIIRS 375 m captures small/low-intensity fires (<2 MW) missed by coarser 1 km MODIS pixels.
+[h3] Global NASA FIRMS Archive Volume by Sensor Stream (2000–2026)
+[p] 18,174 daily archive files across Standard Processing (`SP`) and Near Real-Time (`NRT`) streams (
+[a] FIRMS Availability
+[h2] Statistical Fire Anomaly & Baseline Intelligence
+[p] Non-parametric Median Absolute Deviation ($\text{MAD}$) robust z-scores ($z_{\text{rob}} = 0.6745(x - M)/\text{MAD}$) and percentile thresholds ($P_{25}, P_{50}, P_{75}, P_{90}$).
+[label] BASELINE SERIES:
+[option] Indian Landmass Annual VIIRS Fire Activity (2012–2023, n=12 Years)
+[option] Indian Landmass Annual MODIS >50% Conf Activity (2012–2023, n=12 Years)
+[option] Mediterranean Monthly VIIRS S-NPP Cohort (Jan–Dec 2016–2025, n=12 Months)
+[option] Current Filtered AOI Daily FRP Activity (2025–2026 UTC Dates)
+[div] Historical Baseline Median ($M$)
+[div] 583,295.5
+[div] 50th percentile ($P_{50}$)
+[div] Median Absolute Deviation ($\text{MAD}$)
+[div] 59,017.5
+[div] $\text{median}(|X - M|)$
+[div] Elevated / Extreme Thresholds
+[div] P75: 615k | P90: 678k
+[div] $z_{\text{rob}} \ge 1.0$ / $z_{\text{rob}} \ge 2.0$
+[div] Unusually Elevated Periods
+[div] 2 Periods
+[div] Non-emergency statistical flag
+[h3] Robust Z-Score Distribution ($z_{\text{rob}}$)
+[p] Bars exceeding $+2.0\sigma_{\text{MAD}}$ or $P_{90}$ are classified as
+[strong] Unusually elevated activity
+[h3] Period-by-Period Anomaly Intelligence Log
+[p] Note: Statistical anomalies reflect historical satellite detection deviations and are not confirmed wildfire emergency dispatches.
+[th] Period
+[th] Region / AOI
+[th] Observed
+[th] Baseline ($M$)
+[th] Deviation
+[th] Robust $z$
+[th] Classification
+[th] Sensor & Coverage Note
+[h2] Scientifically Defensible MODIS–VIIRS Harmonization Methodology
+[p] Transparent 8-stage pipeline architecture, mathematical formulations, and sensor limitations.
+[div] STAGE 1 & 2
+[h3] Ingestion & Source ID
+[p] Ingests records from
+[a] NASA FIRMS Area API
+[p] and
+[a] Standard Archive
+[p] . Identifies platform (`Terra`, `Aqua`, `Suomi-NPP`, `NOAA-20`, `NOAA-21`), collection (`6.1` vs `2.0`), and processing stream (`SP` vs `NRT`).
+[div] STAGE 3 & 4
+[h3] Schema & Quality Control
+[p] Normalizes coordinates, UTC timestamps, and thermal channels (`brightness`/`bright_t31` vs `bright_ti4`/`bright_ti5`). Maps MODIS numeric confidence (`0–100%`) and VIIRS categorical confidence (`l`/`n`/`h`) into `LOW`, `NOMINAL`, `HIGH` without equating raw scales. Preserves missing values as `null`.
+[div] STAGE 5 & 6
+[h3] Spherical Space-Time Grid
+[p] Projects detections onto a configurable lat-lon grid (`0.10°`, `0.25°`, `0.50°`) using exact spherical zone area $A = R_\oplus^2 \Delta\lambda |\sin\phi_2 - \sin\phi_1|$ to compute
+[strong] Unique Active Cell-Days
+[p] and density ($\text{detections}/1,000\text{ km}^2$) in UTC.
+[div] STAGE 7 & 8
+[h3] Cross-Sensor & MAD Anomalies
+[p] Performs haversine co-location matching (`1–5 km`) during overlap periods (`2012–2026`) and computes non-parametric Median Absolute Deviation ($\text{MAD}$) robust z-scores ($z_{\text{rob}}$) when historical baseline length $N \ge 5$.
+[h3] Critical Scientific Limitations & Disclaimers
+[strong] Aggregation vs. Physical Calibration:
+[li] CLEO performs common space-time aggregation (`Active Cell-Days`) and sensor-stratified comparison. It does not invent physical cross-sensor regression multipliers because the VIIRS/MODIS ratio varies by biome and fire size (
+[a] Majumdar 2025
+[strong] Active Hotspots ≠ Burned Area:
+[li] Detections represent thermal anomalies at satellite overpass time (`1 km` or `375 m` pixel centers), not total burned perimeters (`MCD64A1`). Cloud cover, smoke, and canopy mask active fires (
+[a] NASA FIRMS FAQ
+[strong] Suomi-NPP Cessation (Nov 2, 2026):
+[li] Delivery of Suomi-NPP VIIRS science data ended on
+[strong] November 2, 2026 at 15:40 UTC
+[a] NASA LANCE Notice
+[li] ). Ongoing VIIRS continuity is provided by NOAA-20 (`JPSS-1`) and NOAA-21 (`JPSS-2`).
+[strong] Monitoring Support Only:
+[li] Statistical anomalies are historical analytical indicators, not confirmed emergency dispatches or future wildfire predictions.
+[h3] Satellite Mission Coverage Timeline (2000–2026)
+[span] MODIS Terra (MOD14 / C6.1, 1 km)
+[span] 2000-11-01 → Present (26 yrs)
+[span] MODIS Aqua (MYD14 / C6.1, 1 km)
+[span] 2002-07-03 → Present (24 yrs)
+[span] VIIRS Suomi-NPP (VNP14IMG / C2, 375 m)
+[span] 2012-01-20 → 2026-11-02 (Ended)
+[span] VIIRS NOAA-20 / JPSS-1 (VJ114IMG / C2, 375 m)
+[span] 2018-04-01 → Present (Operational)
+[span] VIIRS NOAA-21 / JPSS-2 (VJ214IMG / C2, 375 m)
+[span] 2024-01-17 → Present (Operational)
+[h2] 1. NASA FIRMS CSV Archive Ingestion
+[p] Upload or paste standard NASA FIRMS MODIS (`MCD14ML`/`MCD14DL`) or VIIRS (`VNP14IMG`/`VJ114IMG`) CSV files. CLEO validates coordinates, deduplicates rows, and harmonizes confidence scales automatically.
+[label] Upload NASA FIRMS .CSV File
+[label] Or Paste Raw NASA FIRMS CSV Rows
+[button] Validate & Ingest CSV
+[button] Load Sample NASA CSV Snippet
+[div] QC Status: Ready. 70 verified NASA FIRMS observations currently loaded.
+[h2] 2. NASA FIRMS API Integration (`MAP_KEY`)
+[span] Connecting...
+[p] Authenticated server-side proxy reads `NASA_FIRMS_MAP_KEY` from `.env`. Zero credential exposure in browser, automatic 15-minute response caching to protect the 5,000 tx/10-min quota.
+[label] NASA FIRMS MAP_KEY (Server Secured)
+[label] FIRMS Sensor Stream
+[option] VIIRS_NOAA20_NRT (Recommended)
+[option] VIIRS_NOAA21_NRT (Latest)
+[option] MODIS_NRT
+[option] MODIS_SP (Archive)
+[option] VIIRS_SNPP_SP (Archive)
+[label] Day Range (1–10)
+[option] 2 Days (Recent Hotspots)
+[option] 1 Day
+[option] 3 Days
+[option] 7 Days
+[span] ⚡ Stream Live Hotspots from NASA FIRMS via Proxy
+[div] Mode:
+[span] VERIFIED_NASA_ARCHIVE
+[div] Rate Limit Policy: 5,000 transactions / 10-min window
+[h2] 3. Provenance-Stamped Data Exports
+[p] Every export embeds data source, sensor, product version, acquisition period, applied filters, harmonization methodology, and UTC export timestamp. Synthetic test fixtures are strictly excluded from authentic NASA exports.
+[strong] Export Filtered Hotspots (.CSV)
+[span] Harmonized schema + provenance header block
+[span] CSV ↓
+[strong] Export Filtered Hotspots (.GeoJSON)
+[span] RFC 7946 FeatureCollection + metadata
+[span] GeoJSON ↓
+[strong] Export Aggregated Burning Calendar (.CSV)
+[span] Daily & monthly Active Cell-Days + FRP sums
+[span] CAL CSV ↓
+[strong] Export Historical & Anomaly Report (.JSON)
+[span] 2012–2023 decadal comparison + MAD z-scores
+[span] JSON ↓
+[div] Ready to export filtered authentic records.
+[h3] Official NASA FIRMS Datasets, DOIs & Scientific References
+[div] NASA MODIS Collection 6.1 Active Fire (`MCD14ML` / `MCD14DL`)
+[p] Terra (`2000-11-01` – present) & Aqua (`2002-07-03` – present), 1 km spatial resolution. DOIs:
+[code] 10.5067/FIRMS/MODIS/MCD14DL.NRT.0061
+[code] 10.5067/FIRMS/MODIS/MCD14ML
+[a] MODIS Attribute Spec
+[a] MODIS C6 User's Guide
+[div] NASA/NOAA VIIRS 375 m Collection 2 (`VNP14IMG` / `VJ114IMG` / `VJ214IMG`)
+[p] Suomi-NPP (`2012-01-20` – `2026-11-02`), NOAA-20 (`2018-04-01` – present), NOAA-21 (`2024-01-17` – present). DOIs:
+[code] 10.5067/FIRMS/VIIRS/VNP14IMGT_NRT.002
+[code] 10.5067/FIRMS/VIIRS/VJ114IMGT_NRT.002
+[a] VIIRS Attribute Spec
+[a] VIIRS C2 User's Guide
+[a] Suomi-NPP Nov 2, 2026 Notice
+[div] Notification
+[div] — Unified Earth Fire Intelligence & Historical Burning Activity Platform | 2026 NASA Space Apps Challenge ("Harmonization of MODIS and VIIRS Hot Spots")
+[a] NASA FIRMS Portal
+[a] NASA Earthdata FIRMS
+[a] FIRMS API Docs

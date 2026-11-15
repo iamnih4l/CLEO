@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>CLEO — Unified Earth Fire Intelligence Platform</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <style>
+    :root {
+      --void: #03050a;
+      --card-bg: rgba(12, 18, 32, 0.88);
+      --border: rgba(255, 255, 255, 0.14);
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --amber: #f59e0b;
+      --ember: #f97316;
+      --crimson: #ef4444;
+      --cyan: #38bdf8;
+      --purple: #935af0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: var(--void);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: radial-gradient(circle at 50% 45%, #0a1122 0%, #03050a 80%);
+      overflow: hidden;
+    }
+
+    /* Ambient Nebulae */
+    .nebula-1 {
+      position: absolute;
+      top: -10%;
+      left: 15%;
+      width: 900px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(147, 90, 240, 0.14) 0%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .nebula-2 {
+      position: absolute;
+      bottom: -15%;
+      right: 15%;
+      width: 900px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, transparent 70%);
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    /* Top Compliance Watermark */
+    .top-watermark {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 15, 26, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 6px 20px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .watermark-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00d2ff;
+      box-shadow: 0 0 10px #00d2ff;
+    }
+
+    /* Top Telemetry Header */
+    .top-telemetry {
+      position: absolute;
+      top: 24px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 90;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+    .top-tag {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 4px 12px;
+      border-radius: 6px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .top-right {
+      position: absolute;
+      top: 24px;
+      right: 48px;
+      z-index: 90;
+      font-size: 13px;
+      color: var(--text-sub);
+      text-align: right;
+    }
+
+    /* SCENE CONTAINERS */
+    .scene-pane {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* SCENE 1: THE PLANET */
+    #scene-1 {
+      opacity: 1; /* Pre-baked for frame 0 */
+    }
+    .earth-sphere {
+      position: absolute;
+      width: 660px;
+      height: 660px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -48%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #1e293b 0%, #090d16 65%, #020408 100%);
+      box-shadow: 
+        inset 0 0 80px rgba(0, 210, 255, 0.28),
+        inset -30px -30px 100px rgba(0, 0, 0, 0.95),
+        0 0 120px rgba(147, 90, 240, 0.22),
+        0 0 160px rgba(0, 210, 255, 0.15);
+      overflow: hidden;
+    }
+    .earth-orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotateX(68deg) rotateY(-24deg);
+      width: 960px;
+      height: 960px;
+      border: 1px dashed rgba(0, 210, 255, 0.35);
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
+    }
+    .fire-spot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff5722;
+      box-shadow: 0 0 20px #ff3b30, 0 0 35px #ff9800;
+    }
+    .s1-text-box {
+      position: absolute;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 1400px;
+    }
+    .s1-h1 {
+      font-size: 54px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .s1-p {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-sub);
+      margin-top: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    /* SCENE 2: HISTORICAL TIMELINE */
+    .s2-wrap {
+      position: absolute;
+      top: 130px;
+      left: 70px;
+      right: 70px;
+      bottom: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .s2-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 22px;
+    }
+    .s2-title {
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .s2-sub {
+      font-size: 18px;
+      color: var(--text-sub);
+      margin-top: 6px;
+    }
+    .counter-group {
+      display: flex;
+      gap: 28px;
+    }
+    .counter-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 26px;
+      backdrop-filter: blur(12px);
+    }
+    .counter-num {
+      font-size: 50px;
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+    }
+    .counter-desc {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 6px;
+    }
+
+    .timeline-rail-box {
+      position: relative;
+      margin: 40px 0;
+      padding: 30px 0;
+    }
+    .rail-base {
+      position: absolute;
+      top: 50%;
+      left: 40px;
+      right: 40px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-50%);
+      border-radius: 2px;
+    }
+    .rail-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f59e0b 0%, #f97316 60%, #935af0 100%);
+      border-radius: 2px;
+      box-shadow: 0 0 16px rgba(249, 115, 22, 0.6);
+    }
+    .milestone-nodes {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 2;
+    }
+    .milestone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 250px;
+    }
+    .node-pin {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 3px solid #f59e0b;
+      box-shadow: 0 0 18px #f59e0b;
+      margin-bottom: 16px;
+    }
+    .node-pin.viirs { border-color: #f97316; box-shadow: 0 0 18px #f97316; }
+    .node-pin.jpss { border-color: #935af0; box-shadow: 0 0 18px #935af0; }
+    .node-y { font-size: 28px; font-weight: 800; color: #ffffff; }
+    .node-name { font-size: 15px; font-weight: 700; color: #fbbf24; margin-top: 4px; }
+    .node-name.viirs { color: #fb923c; }
+    .node-name.jpss { color: #c084fc; }
+    .node-sub { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    .node-badge {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .s2-foot {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* SCENE 3: SPATIAL RESOLUTION */
+    .s3-wrap {
+      position: absolute;
+      top: 120px;
+      left: 70px;
+      right: 70px;
+      bottom: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .s3-grid {
+      display: grid;
+      grid-template-columns: 1fr 140px 1fr;
+      gap: 32px;
+      align-items: center;
+      margin: 24px 0;
+    }
+    .sensor-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      backdrop-filter: blur(12px);
+    }
+    .sensor-card.modis { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 0 40px rgba(245, 158, 11, 0.1); }
+    .sensor-card.viirs { border-color: rgba(249, 115, 22, 0.4); box-shadow: 0 0 40px rgba(249, 115, 22, 0.1); }
+    .sensor-badge {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .sensor-badge.modis { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .sensor-badge.viirs { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.4); }
+    .res-val-big {
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .res-val-big.modis { color: #fbbf24; }
+    .res-val-big.viirs { color: #fb923c; }
+
+    .footprint-display {
+      width: 100%;
+      height: 200px;
+      background: #020617;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pixel-box-modis {
+      width: 160px;
+      height: 160px;
+      border: 2px dashed #f59e0b;
+      background: rgba(245, 158, 11, 0.14);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
+    }
+    .pixel-grid-viirs {
+      width: 160px;
+      height: 160px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 6px;
+    }
+    .grid-cell {
+      border: 1px solid rgba(249, 115, 22, 0.6);
+      background: rgba(249, 115, 22, 0.18);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #fed7aa;
+    }
+    .grid-cell.hit {
+      background: rgba(239, 68, 68, 0.5);
+      border-color: #ef4444;
+      box-shadow: 0 0 10px #ef4444;
+      font-weight: bold;
+    }
+
+    .vs-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .vs-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--text-sub);
+    }
+    .ratio-badge {
+      font-size: 18px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .s3-warning {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 12px;
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* SCENE 4: REAL CLEO APP */
+    .s4-wrap {
+      position: absolute;
+      top: 105px;
+      left: 60px;
+      right: 60px;
+      bottom: 55px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .s4-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .s4-brand-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .cleo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f97316 0%, #935af0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 22px;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+    }
+    .app-screen-frame {
+      position: relative;
+      flex: 1;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: #020617;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+    .app-screen-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      filter: brightness(0.95) contrast(1.05);
+    }
+    .aoi-polygon-box {
+      position: absolute;
+      top: 25%;
+      left: 35%;
+      width: 340px;
+      height: 240px;
+      border: 2px solid #00d2ff;
+      background: rgba(0, 210, 255, 0.08);
+      border-radius: 8px;
+      box-shadow: 0 0 35px rgba(0, 210, 255, 0.35);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+    }
+    .aoi-pill {
+      font-size: 11px;
+      font-weight: 700;
+      color: #00d2ff;
+      background: rgba(2, 6, 23, 0.9);
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      align-self: flex-start;
+    }
+    .aoi-coords {
+      font-size: 11px;
+      color: #cbd5e1;
+      background: rgba(2, 6, 23, 0.9);
+      padding: 4px 10px;
+      border-radius: 4px;
+      align-self: flex-end;
+    }
+    .hud-metrics-bar {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(10, 15, 26, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 16px 24px;
+      display: flex;
+      gap: 28px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+    .metric-col { display: flex; flex-direction: column; }
+    .metric-digits { font-size: 26px; font-weight: 800; color: #ffffff; }
+    .metric-label { font-size: 11px; font-weight: 600; color: var(--text-sub); text-transform: uppercase; margin-top: 4px; }
+
+    /* SCENE 5: BURNING CALENDAR */
+    .s5-wrap {
+      position: absolute;
+      top: 105px;
+      left: 60px;
+      right: 60px;
+      bottom: 55px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .cal-split {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      flex: 1;
+    }
+    .cal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+    }
+    .cal-heat-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .cal-y-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .y-tag {
+      width: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+    .months-cells {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 6px;
+      flex: 1;
+    }
+    .m-cell {
+      height: 38px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .m-cell.c1 { background: rgba(245, 158, 11, 0.18); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .m-cell.c2 { background: rgba(245, 158, 11, 0.45); border: 1px solid rgba(245, 158, 11, 0.5); color: #fff; font-weight: bold; }
+    .m-cell.c3 { background: rgba(249, 115, 22, 0.8); border: 1px solid rgba(249, 115, 22, 0.9); color: #fff; font-weight: bold; }
+    .m-cell.c4 { background: #ef4444; border: 1px solid #ef4444; color: #fff; font-weight: bold; box-shadow: 0 0 12px rgba(239, 68, 68, 0.6); }
+
+    .months-labels {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 6px;
+      margin-left: 62px;
+      font-size: 11px;
+      color: var(--text-sub);
+      text-align: center;
+    }
+    .anom-display-box {
+      margin: 18px 0;
+      padding: 20px;
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 10px;
+      text-align: center;
+    }
+    .anom-score-num {
+      font-size: 54px;
+      font-weight: 800;
+      color: #fb923c;
+      line-height: 1;
+    }
+    .anom-score-txt {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      margin-top: 8px;
+    }
+    .anom-flag {
+      display: inline-block;
+      margin-top: 10px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 9999px;
+    }
+
+    /* SCENE 6: CLOSING */
+    .s6-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      width: 1400px;
+    }
+    .brand-wordmark {
+      font-size: 110px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      filter: drop-shadow(0 0 35px rgba(249, 115, 22, 0.4));
+    }
+    .closing-tagline {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fb923c;
+    }
+    .attr-capsule {
+      margin-top: 28px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 9999px;
+      padding: 10px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .attr-link { font-size: 13px; font-weight: 600; color: var(--text-sub); }
+  </style>
+</head>
+<body>
+
+  <!-- Entry Composition Root Container -->
+  <div id="root" data-composition-id="main" data-width="1920" data-height="1080">
+    <div class="nebula-1"></div>
+    <div class="nebula-2"></div>
+
+    <!-- Persistent Top Compliance Watermark -->
+    <div class="top-watermark" data-layout-ignore="true">
+      <span class="watermark-dot"></span>
+      <span>AI-GENERATED VISUALS // SCIENTIFIC DEMONSTRATION</span>
+    </div>
+
+    <!-- Persistent Header Telemetry -->
+    <div class="top-telemetry" data-layout-ignore="true">
+      <span class="top-tag font-mono">CLEO EARTH INTEL</span>
+      <span>NASA SPACE APPS 2026</span>
+      <span>•</span>
+      <span>MODIS C6.1 + VIIRS C2</span>
+    </div>
+
+    <div class="top-right font-mono" data-layout-ignore="true">
+      <span>GFED4 EQUAL-AREA 0.25°</span><br>
+      <span style="color: #64748b;">SPHERICAL PROVENANCE</span>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SCENE 1: EARTH'S FIRE RECORD (0.0s - 4.0s)                            -->
+    <!-- ===================================================================== -->
+    <div class="scene-pane" id="scene-1">
+      <div class="earth-sphere" id="s1-globe">
+        <div class="fire-spot" style="top: 48%; left: 38%;"></div>
+        <div class="fire-spot" style="top: 52%; left: 42%;"></div>
+        <div class="fire-spot" style="top: 42%; left: 56%;"></div>
+        <div class="fire-spot" style="top: 36%; left: 62%;"></div>
+        <div class="fire-spot" style="top: 60%; left: 45%;"></div>
+        <div class="fire-spot" style="top: 64%; left: 74%;"></div>
+      </div>
+      <div class="earth-orbit"></div>
+
+      <div class="s1-text-box">
+        <h1 class="s1-h1" id="s1-title">EARTH HAS BEEN BURNING.<br>SATELLITES HAVE BEEN WATCHING.</h1>
+        <p class="s1-p" id="s1-sub">TWENTY-SIX YEARS OF CONTINUOUS SPACEBORNE ACTIVE-FIRE SURVEILLANCE</p>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SCENE 2: THE NUMBERS BEHIND THE SCIENCE (4.0s - 10.0s)                 -->
+    <!-- ===================================================================== -->
+    <div class="scene-pane" id="scene-2">
+      <div class="s2-wrap" id="s2-wrap-box">
+        <div class="s2-head">
+          <div>
+            <h2 class="s2-title" id="s2-headline">THE SATELLITE RECORD EXPANDS</h2>
+            <p class="s2-sub">From morning and afternoon MODIS to high-resolution VIIRS constellations</p>
+          </div>
+          <div class="counter-group">
+            <div class="counter-box">
+              <div class="counter-num font-mono" id="cnt-years">26</div>
+              <div class="counter-desc">Years of Observation</div>
+            </div>
+            <div class="counter-box">
+              <div class="counter-num font-mono" id="cnt-missions" style="color: #38bdf8;">5</div>
+              <div class="counter-desc">Orbital Platforms</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-rail-box">
+          <div class="rail-base">
+            <div class="rail-progress" id="s2-rail"></div>
+          </div>
+
+          <div class="milestone-nodes">
+            <div class="milestone" id="m-1">
+              <div class="node-pin"></div>
+              <div class="node-y font-mono">2000</div>
+              <div class="node-name">MODIS TERRA</div>
+              <div class="node-sub font-mono">NOV 2000 — PRESENT</div>
+              <div class="node-badge font-mono" data-layout-ignore="true">10:30 LT • 1,000 m</div>
+            </div>
+
+            <div class="milestone" id="m-2">
+              <div class="node-pin"></div>
+              <div class="node-y font-mono">2002</div>
+              <div class="node-name">MODIS AQUA</div>
+              <div class="node-sub font-mono">JUL 2002 — PRESENT</div>
+              <div class="node-badge font-mono" data-layout-ignore="true">13:30 LT • 1,000 m</div>
+            </div>
+
+            <div class="milestone" id="m-3">
+              <div class="node-pin viirs"></div>
+              <div class="node-y font-mono">2012</div>
+              <div class="node-name viirs">VIIRS S-NPP</div>
+              <div class="node-sub font-mono">JAN 2012 — NOV 2026</div>
+              <div class="node-badge font-mono" data-layout-ignore="true">13:30 LT • 375 m</div>
+            </div>
+
+            <div class="milestone" id="m-4">
+              <div class="node-pin jpss"></div>
+              <div class="node-y font-mono">2018</div>
+              <div class="node-name jpss">VIIRS NOAA-20</div>
+              <div class="node-sub font-mono">APR 2018 — PRESENT</div>
+              <div class="node-badge font-mono" data-layout-ignore="true">JPSS-1 • 375 m</div>
+            </div>
+
+            <div class="milestone" id="m-5">
+              <div class="node-pin jpss"></div>
+              <div class="node-y font-mono">2024</div>
+              <div class="node-name jpss">VIIRS NOAA-21</div>
+              <div class="node-sub font-mono">JAN 2024 — PRESENT</div>
+              <div class="node-badge font-mono" data-layout-ignore="true">JPSS-2 • Operational</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="s2-foot">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <span class="font-mono" style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #fbbf24; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 13px;">MILESTONE</span>
+            <span style="font-size: 16px; font-weight: 500;">MORE THAN 25 YEARS OF MODIS OBSERVATIONS • VIIRS ADDS FINER SPATIAL DETAIL</span>
+          </div>
+          <span class="font-mono" style="font-size: 13px; color: var(--text-sub);">NASA FIRMS SATELLITE ARCHIVES</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SCENE 3: WHY HARMONIZATION MATTERS (10.0s - 15.0s)                     -->
+    <!-- ===================================================================== -->
+    <div class="scene-pane" id="scene-3">
+      <div class="s3-wrap" id="s3-wrap-box">
+        <div style="text-align: center;">
+          <h2 class="s2-title" id="s3-title">WHY OBSERVATIONS ARE NOT DIRECTLY COMPARABLE</h2>
+          <p class="s2-sub">Different spatial footprints produce fundamentally distinct detection physics</p>
+        </div>
+
+        <div class="s3-grid">
+          <!-- MODIS -->
+          <div class="sensor-card modis" id="s3-modis">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="sensor-badge modis font-mono">MODIS (TERRA / AQUA)</span>
+              <span class="font-mono" style="font-size: 13px; color: var(--text-sub);">2000 — PRESENT</span>
+            </div>
+            <div class="res-val-big modis font-mono">1,000 m</div>
+            <div style="font-size: 16px; color: #cbd5e1;"><strong>Nadir Area:</strong> 1.0 km² footprint</div>
+            <div class="footprint-display">
+              <div class="pixel-box-modis">
+                <span class="font-mono" style="font-size: 14px; font-weight: 700; color: #fbbf24;">1.0 km²</span>
+                <span style="font-size: 11px; color: #94a3b8; margin-top: 4px;">MODIS NADIR PIXEL</span>
+              </div>
+            </div>
+            <div style="font-size: 13px; color: var(--text-sub); line-height: 1.4;">
+              Single composite thermal signature across 1,000,000 m² of terrain.
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="vs-stack">
+            <div class="vs-btn">VS</div>
+            <div class="ratio-badge font-mono">7.1×<br><span style="font-size: 12px; color: var(--text-sub); font-weight: normal;">FINER AREA</span></div>
+          </div>
+
+          <!-- VIIRS -->
+          <div class="sensor-card viirs" id="s3-viirs">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="sensor-badge viirs font-mono">VIIRS (S-NPP / NOAA-20 / 21)</span>
+              <span class="font-mono" style="font-size: 13px; color: var(--text-sub);">2012 — PRESENT</span>
+            </div>
+            <div class="res-val-big viirs font-mono">375 m</div>
+            <div style="font-size: 16px; color: #cbd5e1;"><strong>Nadir Area:</strong> 0.14 km² footprint</div>
+            <div class="footprint-display" data-layout-ignore="true">
+              <div class="pixel-grid-viirs">
+                <div class="grid-cell font-mono">375m</div>
+                <div class="grid-cell hit font-mono">FIRE</div>
+                <div class="grid-cell font-mono">375m</div>
+                <div class="grid-cell hit font-mono">FIRE</div>
+                <div class="grid-cell font-mono">375m</div>
+                <div class="grid-cell font-mono">375m</div>
+                <div class="grid-cell font-mono">375m</div>
+                <div class="grid-cell font-mono">375m</div>
+                <div class="grid-cell font-mono">375m</div>
+              </div>
+            </div>
+            <div style="font-size: 13px; color: var(--text-sub); line-height: 1.4;">
+              Finer detail separates multiple fire heads that MODIS aggregates into one.
+            </div>
+          </div>
+        </div>
+
+        <div class="s3-warning">
+          <div style="font-size: 16px; font-weight: 600; color: #fca5a5;">
+            ⚠️ SCIENTIFIC WARNING: Naive CSV merging creates an artificial 6.3× to 7.7× count jump after 2012.
+          </div>
+          <div class="font-mono" style="font-size: 12px; color: var(--text-sub);">MAJUMDAR (2025) SCIENTIFIC REPORTS • PMC12297426</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SCENE 4: INTRODUCING CLEO (15.0s - 20.0s)                             -->
+    <!-- ===================================================================== -->
+    <div class="scene-pane" id="scene-4">
+      <div class="s4-wrap" id="s4-wrap-box">
+        <div class="s4-header-row">
+          <div class="s4-brand-block">
+            <div class="cleo-icon font-mono">C</div>
+            <div>
+              <h2 style="font-size: 34px; font-weight: 800; color: #fff;" id="s4-brand">MEET CLEO</h2>
+              <p style="font-size: 15px; color: var(--text-sub);">A sensor-aware analytical platform for unified Earth fire intelligence</p>
+            </div>
+          </div>
+          <div class="font-mono" style="text-align: right; font-size: 13px; color: var(--text-sub);">
+            MODULE: 02 // EXPLORE MAP & AOI<br>
+            <span style="color: #38bdf8;">RAY-CASTING POLYGON ENGINE</span>
+          </div>
+        </div>
+
+        <div class="app-screen-frame">
+          <img class="app-screen-img" src="assets/footage/cleo_map_aoi.png" alt="CLEO Interactive Map and AOI Selector">
+
+          <div class="aoi-polygon-box" id="s4-aoi" data-layout-ignore="true">
+            <span class="aoi-pill font-mono">CUSTOM AOI // RAY-CASTING</span>
+            <span class="aoi-coords font-mono">LAT: -8.84° // LON: -53.64°</span>
+          </div>
+
+          <div class="hud-metrics-bar" data-layout-ignore="true">
+            <div class="metric-col">
+              <span class="metric-digits font-mono" style="color: #fbbf24;">28</span>
+              <span class="metric-label">MODIS 1km</span>
+            </div>
+            <div class="metric-col">
+              <span class="metric-digits font-mono" style="color: #fb923c;">42</span>
+              <span class="metric-label">VIIRS 375m</span>
+            </div>
+            <div class="metric-col">
+              <span class="metric-digits font-mono" style="color: #38bdf8;">70</span>
+              <span class="metric-label">Harmonized</span>
+            </div>
+            <div class="metric-col">
+              <span class="metric-digits font-mono" style="color: #10b981;">100%</span>
+              <span class="metric-label">Authentic</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SCENE 5: BURNING CALENDAR (20.0s - 25.4s)                             -->
+    <!-- ===================================================================== -->
+    <div class="scene-pane" id="scene-5">
+      <div class="s5-wrap" id="s5-wrap-box">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h2 style="font-size: 34px; font-weight: 800; color: #fff;" id="s5-title">THE BURNING-ACTIVITY CALENDAR</h2>
+            <p style="font-size: 15px; color: var(--text-sub);">Discover seasonal regimes, compare decades, and identify statistical anomalies</p>
+          </div>
+          <div class="font-mono" style="text-align: right; font-size: 13px; color: var(--text-sub);">
+            NON-PARAMETRIC ANOMALY ENGINE<br>
+            <span style="color: #f97316;">MEDIAN ABSOLUTE DEVIATION (MAD)</span>
+          </div>
+        </div>
+
+        <div class="cal-split">
+          <div class="cal-card" data-layout-ignore="true">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+              <span style="font-size: 18px; font-weight: 700;">Multi-Decade Burning Activity Heatmap</span>
+              <span class="font-mono" style="background: #fb923c; color: #03050a; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 700;">ACTIVE CELL-DAYS</span>
+            </div>
+
+            <div class="cal-heat-grid" data-layout-ignore="true">
+              <div class="cal-y-row">
+                <span class="y-tag font-mono">2024</span>
+                <div class="months-cells font-mono">
+                  <div class="m-cell">12</div><div class="m-cell">18</div><div class="m-cell">24</div>
+                  <div class="m-cell">38</div><div class="m-cell c1">62</div><div class="m-cell c2">140</div>
+                  <div class="m-cell c3">280</div><div class="m-cell c4">512</div><div class="m-cell c3">340</div>
+                  <div class="m-cell c2">120</div><div class="m-cell c1">45</div><div class="m-cell">16</div>
+                </div>
+              </div>
+              <div class="cal-y-row">
+                <span class="y-tag font-mono">2023</span>
+                <div class="months-cells font-mono">
+                  <div class="m-cell">14</div><div class="m-cell">16</div><div class="m-cell">20</div>
+                  <div class="m-cell">32</div><div class="m-cell c1">54</div><div class="m-cell c2">115</div>
+                  <div class="m-cell c2">190</div><div class="m-cell c3">360</div><div class="m-cell c3">295</div>
+                  <div class="m-cell c1">95</div><div class="m-cell">38</div><div class="m-cell">12</div>
+                </div>
+              </div>
+              <div class="cal-y-row">
+                <span class="y-tag font-mono">2022</span>
+                <div class="months-cells font-mono">
+                  <div class="m-cell">10</div><div class="m-cell">12</div><div class="m-cell">18</div>
+                  <div class="m-cell">28</div><div class="m-cell c1">48</div><div class="m-cell c1">98</div>
+                  <div class="m-cell c2">165</div><div class="m-cell c3">310</div><div class="m-cell c2">240</div>
+                  <div class="m-cell c1">82</div><div class="m-cell">26</div><div class="m-cell">11</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="months-labels font-mono" data-layout-ignore="true">
+              <span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span><span>JUN</span>
+              <span>JUL</span><span>AUG</span><span>SEP</span><span>OCT</span><span>NOV</span><span>DEC</span>
+            </div>
+
+            <div style="font-size: 13px; color: var(--text-sub); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
+              Harmonized Active Cell-Days eliminate resolution inflation across MODIS and VIIRS eras.
+            </div>
+          </div>
+
+          <!-- Anomaly Card -->
+          <div class="cal-card">
+            <div style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+              <div style="font-size: 18px; font-weight: 700;">Robust Anomaly Intelligence</div>
+              <div class="font-mono" style="font-size: 11px; color: var(--text-sub); margin-top: 4px;">AMAZON BASIN // AUGUST 2024</div>
+            </div>
+
+            <div class="anom-display-box">
+              <div class="anom-score-num font-mono" id="anom-score">+2.15</div>
+              <div class="anom-score-txt font-mono">ROBUST Z-SCORE (Zrob)</div>
+              <div class="anom-flag font-mono">UNUSUALLY ELEVATED ACTIVITY</div>
+            </div>
+
+            <div class="font-mono" style="font-size: 11px; color: var(--text-sub); background: rgba(255,255,255,0.03); padding: 12px; border-radius: 6px; line-height: 1.4;">
+              MAD = median(|Xi - M|)<br>
+              Zrob = 0.6745 × (X - M) / MAD<br>
+              <span style="color: #38bdf8;">Protected against extreme agricultural outliers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SCENE 6: CLOSING & ATTRIBUTION (25.4s - 28.0s)                        -->
+    <!-- ===================================================================== -->
+    <div class="scene-pane" id="scene-6">
+      <div class="s6-center">
+        <h1 class="brand-wordmark" id="s6-logo">CLEO</h1>
+        <p class="closing-tagline" id="s6-tag">UNDERSTANDING EARTH'S BURNING PATTERNS</p>
+
+        <div class="attr-capsule" id="s6-attr" data-layout-ignore="true">
+          <span class="attr-link font-mono">DATA: NASA FIRMS</span>
+          <span style="color: rgba(255,255,255,0.2);">•</span>
+          <span class="attr-link font-mono">MODIS C6.1 (TERRA / AQUA)</span>
+          <span style="color: rgba(255,255,255,0.2);">•</span>
+          <span class="attr-link font-mono">VIIRS C2 (S-NPP / NOAA-20 / 21)</span>
+        </div>
+
+        <div class="font-mono" style="font-size: 14px; color: #64748b; margin-top: 10px;" data-layout-ignore="true">
+          DEVELOPED FOR THE 2026 NASA SPACE APPS CHALLENGE • OPEN SOURCE
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- AUDIO ELEMENTS (Managed via HyperFrames data-attributes)             -->
+    <!-- ===================================================================== -->
+    <audio id="bg-music" data-start="0.0" data-duration="28.0" data-track-index="10" data-volume="0.25" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"></audio>
+    <audio id="vo" data-start="0.8" data-duration="24.26" data-track-index="3" data-volume="1.0" src="assets/voiceover.wav"></audio>
+    <audio id="sfx-open" data-start="0.0" data-duration="1.48" data-track-index="11" data-volume="0.75" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+    <audio id="sfx-switch1" data-start="4.5" data-duration="0.12" data-track-index="12" data-volume="0.65" src="assets/sfx/interface/switch_001.ogg"></audio>
+    <audio id="sfx-switch2" data-start="7.2" data-duration="0.12" data-track-index="13" data-volume="0.65" src="assets/sfx/interface/switch_001.ogg"></audio>
+    <audio id="sfx-drop" data-start="10.2" data-duration="0.11" data-track-index="14" data-volume="0.60" src="assets/sfx/interface/drop_001.ogg"></audio>
+    <audio id="sfx-click" data-start="15.0" data-duration="0.06" data-track-index="15" data-volume="0.65" src="assets/sfx/ui/mouseclick1.ogg"></audio>
+    <audio id="sfx-cal" data-start="20.0" data-duration="0.11" data-track-index="16" data-volume="0.60" src="assets/sfx/interface/drop_001.ogg"></audio>
+    <audio id="sfx-close" data-start="25.4" data-duration="0.12" data-track-index="17" data-volume="0.75" src="assets/sfx/impact/impactSoft_medium_000.ogg"></audio>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- DETERMINISTIC SEEKABLE GSAP TIMELINE                                  -->
+  <!-- ===================================================================== -->
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    window.__timelines["main"] = tl;
+
+    // SCENE 1: THE PLANET (0.0s – 4.0s)
+    tl.fromTo("#scene-1", { opacity: 1 }, { opacity: 1, duration: 3.6 }, 0.0);
+    tl.fromTo("#s1-globe", { scale: 0.9, rotate: -6 }, { scale: 1.05, rotate: 8, duration: 4.0, ease: "none" }, 0.0);
+    tl.fromTo("#s1-title", { opacity: 0.9, y: 15 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.0);
+    tl.fromTo("#s1-sub", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 1.0);
+    tl.to("#scene-1", { opacity: 0, scale: 1.08, filter: "blur(8px)", duration: 0.4, ease: "power2.in" }, 3.6);
+
+    // SCENE 2: THE NUMBERS BEHIND THE SCIENCE (4.0s – 10.0s)
+    tl.fromTo("#scene-2", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 4.0);
+    tl.fromTo("#s2-headline", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 4.1);
+    tl.fromTo("#s2-rail", { width: "0%" }, { width: "100%", duration: 5.2, ease: "power1.inOut" }, 4.4);
+
+    // Subtle continuous camera drift to eliminate dead stretches
+    tl.fromTo("#s2-wrap-box", { scale: 0.99 }, { scale: 1.01, duration: 5.6, ease: "none" }, 4.0);
+
+    // Timeline Nodes stagger
+    tl.fromTo("#m-1", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)" }, 4.6);
+    tl.fromTo("#m-2", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)" }, 5.6);
+    tl.fromTo("#m-3", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)" }, 6.8);
+    tl.fromTo("#m-4", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)" }, 8.0);
+    tl.fromTo("#m-5", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)" }, 9.0);
+
+    // Animated Counters in Scene 2
+    const s2Counters = { years: 0, missions: 0 };
+    tl.to(s2Counters, {
+      years: 26,
+      missions: 5,
+      duration: 4.8,
+      ease: "power1.out",
+      onUpdate: () => {
+        const ey = document.getElementById("cnt-years");
+        const em = document.getElementById("cnt-missions");
+        if (ey) ey.textContent = Math.round(s2Counters.years);
+        if (em) em.textContent = Math.round(s2Counters.missions);
+      }
+    }, 4.5);
+    tl.to("#scene-2", { opacity: 0, scale: 0.95, duration: 0.4, ease: "power2.in" }, 9.6);
+
+    // SCENE 3: WHY HARMONIZATION MATTERS (10.0s – 15.0s)
+    tl.fromTo("#scene-3", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 10.0);
+    tl.fromTo("#s3-title", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 10.1);
+    tl.fromTo("#s3-modis", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.6, ease: "back.out(1.2)" }, 10.4);
+    tl.fromTo("#s3-viirs", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.6, ease: "back.out(1.2)" }, 10.8);
+    tl.fromTo("#s3-wrap-box", { scale: 0.99 }, { scale: 1.01, duration: 4.6, ease: "none" }, 10.0);
+    tl.to("#scene-3", { opacity: 0, scale: 1.05, duration: 0.4, ease: "power2.in" }, 14.6);
+
+    // SCENE 4: INTRODUCING CLEO (15.0s – 20.0s)
+    tl.fromTo("#scene-4", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1.0, duration: 0.5, ease: "power3.out" }, 15.0);
+    tl.fromTo("#s4-brand", { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 15.1);
+    tl.fromTo("#s4-aoi", { scale: 1.25, opacity: 0 }, { scale: 1.0, opacity: 1, duration: 0.6, ease: "back.out(1.4)" }, 15.6);
+    tl.fromTo("#s4-wrap-box", { y: 0 }, { y: -8, duration: 4.6, ease: "none" }, 15.0);
+    tl.to("#scene-4", { opacity: 0, x: -40, duration: 0.4, ease: "power2.in" }, 19.6);
+
+    // SCENE 5: BURNING CALENDAR (20.0s – 25.4s)
+    tl.fromTo("#scene-5", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 20.0);
+    tl.fromTo("#s5-title", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 20.1);
+    tl.fromTo("#s5-wrap-box", { scale: 0.99 }, { scale: 1.01, duration: 5.4, ease: "none" }, 20.0);
+
+    // Animate MAD score up to +2.15
+    const anomCounter = { score: 0 };
+    tl.to(anomCounter, {
+      score: 2.15,
+      duration: 3.2,
+      ease: "power2.out",
+      onUpdate: () => {
+        const es = document.getElementById("anom-score");
+        if (es) es.textContent = "+" + anomCounter.score.toFixed(2);
+      }
+    }, 20.5);
+    tl.to("#scene-5", { opacity: 0, scale: 1.06, filter: "blur(10px)", duration: 0.35, ease: "power2.in" }, 24.6);
+
+    // SCENE 6: CLOSING & ATTRIBUTION (24.8s – 28.0s)
+    // 3.2s hold on screen — fully readable
+    tl.fromTo("#scene-6", { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1.0, duration: 0.4, ease: "power3.out" }, 24.8);
+    tl.fromTo("#s6-logo", { opacity: 0, y: 25, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power4.out" }, 24.8);
+    tl.fromTo("#s6-tag", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 25.1);
+    tl.fromTo("#s6-attr", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.2)" }, 25.3);
+
+    tl.seek(0);
+  </script>
+</body>
+</html>

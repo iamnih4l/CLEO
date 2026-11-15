@@ -1,0 +1,9 @@
+{
+  "name": "cleo-final-video",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check": "node C:\\Users\\nihal\\AppData\\Local\\npm-cache\\_npx\\702923228c2ce1e6\\node_modules\\hyperframes\\bin\\hyperframes.mjs check",
+    "render": "node C:\\Users\\nihal\\AppData\\Local\\npm-cache\\_npx\\702923228c2ce1e6\\node_modules\\hyperframes\\bin\\hyperframes.mjs render --duration 28s -o ../CLEO_FINAL_DEMO.mp4"
+  }
+}

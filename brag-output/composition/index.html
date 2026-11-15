@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>CLEO — Earth-Observation Fire Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #06080d;
+        --ink: #ffffff;
+        --muted: #94a3b8;
+        --border: rgba(41, 53, 72, 0.6);
+        --ember: #f97316;
+        --amber: #f59e0b;
+        --emerald: #10b981;
+        --purple: #935af0;
+        --cyan: #38bdf8;
+        --card-bg: rgba(11, 15, 25, 0.88);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--ink);
+      }
+      .font-mono-tech {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* Base layout & full-screen composition container */
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        background: radial-gradient(circle at 50% 40%, #0d1527 0%, #06080d 75%, #020408 100%);
+        overflow: hidden;
+      }
+
+      /* Ambient Cosmic Nebulae */
+      .ambient-nebula-1 {
+        position: absolute;
+        top: -15%;
+        left: 20%;
+        width: 1000px;
+        height: 650px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(147, 90, 240, 0.16) 0%, transparent 70%);
+        filter: blur(80px);
+        pointer-events: none;
+      }
+      .ambient-nebula-2 {
+        position: absolute;
+        bottom: -20%;
+        right: 15%;
+        width: 1100px;
+        height: 700px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(249, 115, 22, 0.14) 0%, transparent 70%);
+        filter: blur(90px);
+        pointer-events: none;
+      }
+
+      /* Global HUD Overlay (Always Visible Across Sequences) */
+      .hud-frame {
+        position: absolute;
+        inset: 28px;
+        pointer-events: none;
+        z-index: 50;
+      }
+      .hud-corner {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+      }
+      .hud-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+      .hud-tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+      .hud-bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+      .hud-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+      .hud-top-bar {
+        position: absolute;
+        top: 36px;
+        left: 48px;
+        right: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 55;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+      }
+      .badge-telemetry {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.45);
+        color: #34d399;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .badge-watermark {
+        padding: 5px 12px;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #94a3b8;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+      }
+
+      /* Glassmorphic Panel Cards */
+      .panel-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
+      }
+
+      /* Scenes Common */
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+      }
+
+      /* 3D Glowing Elements */
+      .glow-ember {
+        box-shadow: 0 0 25px rgba(249, 115, 22, 0.6), inset 0 0 15px rgba(249, 115, 22, 0.4);
+      }
+      .glow-emerald {
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.6), inset 0 0 15px rgba(16, 185, 129, 0.4);
+      }
+      .glow-cyan {
+        box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="25"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- Atmospheric Space Gradients -->
+      <div class="ambient-nebula-1"></div>
+      <div class="ambient-nebula-2"></div>
+
+      <!-- Persistent Tactical HUD Frame -->
+      <div class="hud-frame">
+        <div class="hud-corner hud-tl"></div>
+        <div class="hud-corner hud-tr"></div>
+        <div class="hud-corner hud-bl"></div>
+        <div class="hud-corner hud-br"></div>
+      </div>
+
+      <!-- Persistent Mission Telemetry Header -->
+      <div class="hud-top-bar font-mono-tech" data-layout-ignore="true">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-orange-600/20 border border-orange-500/50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9" stroke-opacity="0.4" />
+              <path d="M12 3a9 9 0 0 1 9 9c0 4.97-4.03 9-9 9" stroke="#f97316" stroke-linecap="round" />
+            </svg>
+          </div>
+          <span class="text-white font-bold tracking-widest text-sm">CLEO // SPACE APPS 2026</span>
+          <span class="text-slate-500">•</span>
+          <span id="hud-clock" class="text-slate-400 text-xs">2026-11-15 // 08:45:00 UTC</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="badge-telemetry">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>NASA FIRMS PROXY: LIVE (5,000 TX/10M)</span>
+          </div>
+          <div class="badge-watermark">AI-GENERATED CINEMATIC VISUALS</div>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SCENE 1: THE PLANET (0.0s – 4.0s)                                    -->
+      <!-- =================================================================== -->
+      <div id="scene-1" class="clip scene" data-start="0" data-duration="4" data-track-index="1">
+        <div class="relative flex flex-col items-center justify-center">
+          <!-- 3D Earth Globe Visual with Atmospheric Rings & Fire Plumes -->
+          <div id="s1-globe" class="relative w-[480px] h-[480px] rounded-full flex items-center justify-center" style="box-shadow: 0 0 90px rgba(56, 189, 248, 0.28), inset 0 0 60px rgba(10, 16, 32, 0.9);">
+            <!-- Earth Globe Sphere -->
+            <svg class="w-full h-full rounded-full" viewBox="0 0 500 500" fill="none">
+              <defs>
+                <radialGradient id="earthGrad" cx="35%" cy="35%" r="65%">
+                  <stop offset="0%" stop-color="#1e293b" />
+                  <stop offset="45%" stop-color="#0f172a" />
+                  <stop offset="85%" stop-color="#090d16" />
+                  <stop offset="100%" stop-color="#030712" />
+                </radialGradient>
+                <filter id="hotspotGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="6" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <circle cx="250" cy="250" r="235" fill="url(#earthGrad)" stroke="rgba(56,189,248,0.4)" stroke-width="1.5" />
+              <!-- Continents Silhouette (Stylized Earth) -->
+              <path d="M120,210 Q160,160 210,180 Q240,210 230,260 Q190,320 150,300 Z" fill="#1e2d42" opacity="0.65" />
+              <path d="M260,140 Q310,130 360,160 Q390,220 340,280 Q290,260 280,200 Z" fill="#1e2d42" opacity="0.65" />
+              <path d="M310,300 Q360,310 370,360 Q340,400 300,380 Z" fill="#1e2d42" opacity="0.65" />
+              <!-- Lat/Lon Graticule -->
+              <ellipse cx="250" cy="250" rx="230" ry="120" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none" />
+              <ellipse cx="250" cy="250" rx="230" ry="50" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none" />
+              <line x1="250" y1="15" x2="250" y2="485" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+              <!-- Active Fire Hotspots (Thermal Radiance) -->
+              <g filter="url(#hotspotGlow)">
+                <circle cx="180" cy="240" r="5" fill="#f97316" />
+                <circle cx="180" cy="240" r="14" fill="#f97316" opacity="0.3" />
+                <circle cx="330" cy="190" r="6" fill="#f59e0b" />
+                <circle cx="330" cy="190" r="16" fill="#f59e0b" opacity="0.3" />
+                <circle cx="340" cy="340" r="5" fill="#ef4444" />
+                <circle cx="340" cy="340" r="12" fill="#ef4444" opacity="0.3" />
+                <circle cx="210" cy="220" r="4" fill="#f97316" />
+              </g>
+            </svg>
+            <!-- Orbit Trajectory Ring (Terra / Aqua) -->
+            <div class="absolute w-[580px] h-[220px] rounded-[50%] border border-cyan-400/30" style="transform: rotate(-25deg); box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);"></div>
+            <!-- Orbit Trajectory Ring (Suomi-NPP / NOAA-20) -->
+            <div class="absolute w-[560px] h-[260px] rounded-[50%] border border-orange-500/30" style="transform: rotate(35deg); box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);"></div>
+          </div>
+
+          <!-- Cinematic Opening Titles -->
+          <div class="mt-10 text-center max-w-3xl">
+            <div id="s1-tagline" class="text-xs font-mono-tech tracking-[0.3em] uppercase text-orange-400 mb-2" data-layout-ignore="true">26 YEARS OF SATELLITE THERMAL TELEMETRY</div>
+            <h1 id="s1-title" class="text-5xl font-extrabold tracking-tight text-white mb-3" style="text-shadow: 0 0 35px rgba(255,255,255,0.25);">
+              EARTH IS ALWAYS CHANGING.
+            </h1>
+            <p id="s1-subtitle" class="text-2xl font-light text-slate-300 tracking-wide">
+              AND FIRE LEAVES A RECORD.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SCENE 2: THE PROBLEM (4.0s – 8.74s)                                   -->
+      <!-- =================================================================== -->
+      <div id="scene-2" class="clip scene" data-start="4" data-duration="4.74" data-track-index="1">
+        <div class="w-[1400px] flex flex-col items-center">
+          <div class="text-center mb-8">
+            <span class="text-xs font-mono-tech uppercase tracking-[0.25em] px-3 py-1 rounded-full bg-red-950/70 border border-red-500/50 text-red-300">THE SCIENTIFIC CHALLENGE</span>
+            <h2 id="s2-headline" class="text-4xl font-extrabold text-white mt-3">DECADES OF DATA. DIFFERENT SENSORS.</h2>
+            <p id="s2-subheadline" class="text-xl text-orange-400 font-mono-tech mt-1">ONE CRITICAL CHALLENGE: COMPARABILITY.</p>
+          </div>
+
+          <!-- Side-by-Side Sensor Disparity Breakdown -->
+          <div class="w-full grid grid-cols-2 gap-8" data-layout-ignore="true">
+            <!-- Left Card: MODIS -->
+            <div id="s2-modis-card" class="panel-card p-8 border-amber-500/40 relative overflow-hidden">
+              <div class="absolute top-0 right-0 px-4 py-1.5 bg-amber-500/20 text-amber-300 font-mono-tech text-xs rounded-bl-xl border-l border-b border-amber-500/40">COLLECTION 6.1</div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="w-3 h-3 rotate-45 bg-amber-400 shadow-[0_0_10px_#f59e0b]"></span>
+                <h3 class="text-2xl font-bold text-white">MODIS (Terra &amp; Aqua)</h3>
+              </div>
+              <div class="space-y-4 font-mono-tech text-sm">
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                  <span class="text-slate-400">Spatial Resolution:</span>
+                  <span class="text-amber-400 font-bold text-lg">1.0 km Nominal</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                  <span class="text-slate-400">Scan &times; Track Footprint:</span>
+                  <span class="text-white">1.00 &times; 1.00 km &rarr; 4.8 &times; 2.0 km (edge)</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                  <span class="text-slate-400">Operational Era:</span>
+                  <span class="text-slate-300">2000 &ndash; Present (26 Years)</span>
+                </div>
+                <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-500/30 text-amber-200 text-xs">
+                  Coarse pixel area (1.00 to 9.60 km&sup2;) misses small and understory fires.
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Card: VIIRS -->
+            <div id="s2-viirs-card" class="panel-card p-8 border-orange-500/40 relative overflow-hidden">
+              <div class="absolute top-0 right-0 px-4 py-1.5 bg-orange-500/20 text-orange-300 font-mono-tech text-xs rounded-bl-xl border-l border-b border-orange-500/40">COLLECTION 2</div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="w-3 h-3 rounded-full bg-orange-500 shadow-[0_0_10px_#f97316]"></span>
+                <h3 class="text-2xl font-bold text-white">VIIRS (S-NPP, NOAA-20/21)</h3>
+              </div>
+              <div class="space-y-4 font-mono-tech text-sm">
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                  <span class="text-slate-400">Spatial Resolution:</span>
+                  <span class="text-orange-400 font-bold text-lg">375 m High-Res</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                  <span class="text-slate-400">Scan &times; Track Footprint:</span>
+                  <span class="text-white">0.375 &times; 0.375 km (3:1 aggregation)</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                  <span class="text-slate-400">Operational Era:</span>
+                  <span class="text-slate-300">2012 &ndash; Present (14 Years)</span>
+                </div>
+                <div class="p-3 rounded-lg bg-orange-950/30 border border-orange-500/30 text-orange-200 text-xs font-bold">
+                  Detects 6.31x&ndash;7.67x more raw pixels &mdash; creates artificial fire surges!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SCENE 3: INTRODUCING CLEO (8.74s – 13.5s)                             -->
+      <!-- =================================================================== -->
+      <div id="scene-3" class="clip scene" data-start="8.74" data-duration="4.76" data-track-index="1">
+        <div class="w-[1500px] flex flex-col items-center">
+          <div class="text-center mb-6">
+            <span class="text-xs font-mono-tech uppercase tracking-[0.3em] px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/50 text-purple-300">CROSS-SENSOR HARMONIZATION</span>
+            <h2 id="s3-brand-title" class="text-5xl font-black text-white mt-2 tracking-tight">MEET CLEO.</h2>
+            <p id="s3-brand-subtitle" class="text-xl text-slate-300 mt-1">EARTH'S FIRE ACTIVITY. <span class="text-emerald-400 font-semibold">ONE UNIFIED VIEW.</span></p>
+          </div>
+
+          <!-- Recreated CLEO Tactical Map Interface -->
+          <div id="s3-map-interface" class="w-full panel-card p-5 relative border-purple-500/40" data-layout-ignore="true">
+            <!-- Mockup Map Header Bar -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 font-mono-tech text-xs text-slate-300">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded bg-slate-800 text-white font-bold">ACTIVE AOI: GLOBAL</span>
+                <span class="text-slate-400">Harmonized Equal-Area Grid: <strong>0.25&deg; (GFED4 Convention)</strong></span>
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rotate-45 bg-amber-400"></span> MODIS C6.1</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span> VIIRS C2</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 border border-emerald-400 bg-emerald-500/30"></span> Equal-Area Cell</span>
+              </div>
+            </div>
+
+            <!-- Visual Map Canvas Area -->
+            <div class="relative w-full h-[360px] mt-3 rounded-lg bg-[#070b14] overflow-hidden border border-slate-800 flex items-center justify-center">
+              <!-- World Vector Contours -->
+              <svg class="w-full h-full opacity-35" viewBox="0 0 1000 500" fill="#1e293b">
+                <path d="M150,120 Q220,100 280,140 Q320,200 260,250 Q180,240 150,180 Z" />
+                <path d="M450,110 Q550,90 650,130 Q700,210 600,260 Q500,240 450,170 Z" />
+                <path d="M680,260 Q760,250 820,310 Q780,390 700,360 Z" />
+                <path d="M220,290 Q270,280 290,360 Q250,420 200,380 Z" />
+              </svg>
+              <!-- Equal-Area GFED4 Grid Overlay -->
+              <div class="absolute inset-0 grid grid-cols-12 grid-rows-6 opacity-25 pointer-events-none">
+                <div class="border border-slate-700"></div><div class="border border-slate-700"></div><div class="border border-slate-700"></div>
+                <div class="border border-slate-700"></div><div class="border border-slate-700"></div><div class="border border-slate-700"></div>
+                <div class="border border-slate-700"></div><div class="border border-slate-700"></div><div class="border border-slate-700"></div>
+                <div class="border border-slate-700"></div><div class="border border-slate-700"></div><div class="border border-slate-700"></div>
+              </div>
+              <!-- Simulated Hotspot Clusters & Equal-Area Cells -->
+              <div class="absolute top-[38%] left-[24%] w-16 h-16 border-2 border-emerald-400 bg-emerald-500/20 rounded shadow-[0_0_20px_#10b981] flex items-center justify-center">
+                <span class="text-[10px] font-mono-tech text-emerald-300 font-bold">0.25&deg;</span>
+              </div>
+              <div class="absolute top-[42%] left-[58%] w-16 h-16 border-2 border-emerald-400 bg-emerald-500/20 rounded shadow-[0_0_20px_#10b981] flex items-center justify-center">
+                <span class="text-[10px] font-mono-tech text-emerald-300 font-bold">0.25&deg;</span>
+              </div>
+              <!-- Real Telemetry Inspection Card Popup -->
+              <div class="absolute top-8 right-12 w-80 p-4 rounded-xl bg-slate-900/95 border border-cyan-500/60 shadow-[0_0_30px_rgba(56,189,248,0.35)] font-mono-tech text-xs">
+                <div class="flex justify-between text-cyan-400 font-bold border-b border-slate-800 pb-1 mb-2">
+                  <span>VIIRS NOAA-20 // 375M</span>
+                  <span class="text-emerald-400">HIGH CONF</span>
+                </div>
+                <div class="space-y-1 text-slate-300">
+                  <div>LAT/LON: 13.145&deg;N, 101.398&deg;E</div>
+                  <div>FRP: <strong class="text-orange-400">14.80 MW</strong></div>
+                  <div>PIXEL AREA: 0.14 km&sup2;</div>
+                  <div class="text-emerald-400 text-[11px] mt-2 pt-1 border-t border-slate-800">HARMONIZED CELL: GFED4_13.25_101.50</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SCENE 4: THE INTELLIGENCE (13.5s – 21.5s)                             -->
+      <!-- =================================================================== -->
+      <div id="scene-4" class="clip scene" data-start="13.5" data-duration="8" data-track-index="1">
+        <div class="w-[1550px] flex flex-col items-center">
+          <div class="text-center mb-6">
+            <span class="text-xs font-mono-tech uppercase tracking-[0.25em] px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/50 text-orange-300">FEATURE DEMONSTRATION</span>
+            <h2 id="s4-title" class="text-4xl font-extrabold text-white mt-2">THE BURNING ACTIVITY CALENDAR &amp; ANOMALY INTELLIGENCE</h2>
+          </div>
+
+          <!-- Feature Cards Showcase -->
+          <div class="w-full grid grid-cols-3 gap-6" data-layout-ignore="true">
+            <!-- Sub-Card 1: Area of Interest Selection -->
+            <div id="s4-card-1" class="panel-card p-6 border-slate-700 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-mono-tech text-cyan-400 font-semibold uppercase">1. GEOGRAPHICAL AOI</span>
+                <h3 class="text-xl font-bold text-white mt-1">Select Region &amp; Draw Bounds</h3>
+                <p class="text-xs text-slate-400 mt-2">BBOX and Ray-Casting Polygon filter over Mediterranean, South Asia, or custom fire zones.</p>
+                <div class="mt-4 p-3 rounded bg-black/50 border border-slate-800 font-mono-tech text-xs space-y-1">
+                  <div class="text-slate-400">AOI: <strong class="text-white">South &amp; SE Asia [54, 5.5, 102, 40]</strong></div>
+                  <div class="text-emerald-400 font-semibold">1,248 Harmonized Active Cell-Days</div>
+                </div>
+              </div>
+              <div class="mt-4 text-xs font-mono-tech text-cyan-300">&check; ZERO RAW-PIXEL ARTIFACTS</div>
+            </div>
+
+            <!-- Sub-Card 2: The Burning Activity Calendar Heatmap -->
+            <div id="s4-card-2" class="panel-card p-6 border-orange-500/50 bg-[#0e1424] shadow-[0_0_35px_rgba(249,115,22,0.2)]">
+              <span class="text-xs font-mono-tech text-orange-400 font-semibold uppercase">2. BURNING CALENDAR</span>
+              <h3 class="text-xl font-bold text-white mt-1">Monthly &amp; Seasonal Matrices</h3>
+              <p class="text-xs text-slate-400 mt-2">Harmonized 0.25&deg; Active Cell-Days track fire return frequency without sensor bias.</p>
+              <!-- 12-Month Heatmap Grid -->
+              <div class="mt-4 grid grid-cols-6 gap-2 font-mono-tech text-center text-xs">
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">JAN<br/><span class="text-[10px]">12</span></div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">FEB<br/><span class="text-[10px]">28</span></div>
+                <div class="p-2 rounded bg-orange-950 border border-orange-500 text-orange-300 font-bold">MAR<br/><span class="text-[10px]">142</span></div>
+                <div class="p-2 rounded bg-red-950 border border-red-500 text-red-200 font-black glow-ember">APR<br/><span class="text-[10px]">389</span></div>
+                <div class="p-2 rounded bg-orange-950 border border-orange-500 text-orange-300 font-bold">MAY<br/><span class="text-[10px]">195</span></div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">JUN<br/><span class="text-[10px]">45</span></div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">JUL<br/><span class="text-[10px]">18</span></div>
+                <div class="p-2 rounded bg-orange-950 border border-orange-500 text-orange-300 font-bold">AUG<br/><span class="text-[10px]">110</span></div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">SEP<br/><span class="text-[10px]">35</span></div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">OCT<br/><span class="text-[10px]">42</span></div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">NOV<br/><span class="text-[10px]">68</span></div>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400">DEC<br/><span class="text-[10px]">22</span></div>
+              </div>
+            </div>
+
+            <!-- Sub-Card 3: Robust MAD Anomaly Detection -->
+            <div id="s4-card-3" class="panel-card p-6 border-slate-700 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-mono-tech text-red-400 font-semibold uppercase">3. ANOMALY INTELLIGENCE</span>
+                <h3 class="text-xl font-bold text-white mt-1">Non-Parametric Robust Z-Score</h3>
+                <p class="text-xs text-slate-400 mt-2">Median Absolute Deviation (MAD) identifies extreme fire episodes without assuming Gaussian distribution.</p>
+                <!-- Anomaly Callout Stat -->
+                <div class="mt-4 p-3 rounded bg-red-950/40 border border-red-500/60 font-mono-tech text-xs space-y-1">
+                  <div class="text-red-300 font-bold text-sm">+2.15 ROBUST Z-SCORE</div>
+                  <div class="text-slate-300">Unusually Elevated Burning Episode</div>
+                  <div class="text-slate-400 text-[11px]">P90 Threshold Exceeded (Decadal Baseline)</div>
+                </div>
+              </div>
+              <div class="mt-4 text-xs font-mono-tech text-emerald-400">&check; ZERO ARTIFICIAL TRENDS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SCENE 5: CLOSING & ATTRIBUTION (21.5s – 25.0s)                         -->
+      <!-- =================================================================== -->
+      <div id="scene-5" class="clip scene" data-start="21.5" data-duration="3.5" data-track-index="1">
+        <div class="flex flex-col items-center justify-center text-center">
+          <!-- Logo & Core Title -->
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-purple-600 p-0.5 shadow-[0_0_50px_rgba(249,115,22,0.45)] mb-4">
+            <div class="w-full h-full bg-[#06080d] rounded-2xl flex items-center justify-center">
+              <svg class="w-9 h-9 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="9" stroke-opacity="0.3" />
+                <path d="M12 3a9 9 0 0 1 9 9c0 4.97-4.03 9-9 9" stroke="#f97316" stroke-linecap="round" />
+                <path d="M12 7c1.8 2.2 3 4 3 6.2A3 3 0 0 1 9 13.2C9 11 10.2 9.2 12 7z" fill="#935af0" fill-opacity="0.85" stroke="none" />
+              </svg>
+            </div>
+          </div>
+
+          <h1 id="s5-logo" class="text-7xl font-black tracking-widest text-white mb-2" style="text-shadow: 0 0 45px rgba(249,115,22,0.5);">
+            CLEO
+          </h1>
+          <p id="s5-tagline" class="text-2xl font-light text-slate-200 tracking-wide mb-2">
+            UNDERSTANDING EARTH&rsquo;S BURNING PATTERNS.
+          </p>
+          <p id="s5-subtagline" class="text-sm font-mono-tech text-orange-400 tracking-widest uppercase mb-8">
+            POWERED BY SATELLITE FIRE OBSERVATIONS
+          </p>
+
+          <!-- Authentic Scientific Attribution Block -->
+          <div id="s5-attribution" class="px-6 py-2.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-xs font-mono-tech text-slate-400 flex items-center gap-4" data-layout-ignore="true">
+            <span>DATA: NASA FIRMS</span>
+            <span class="text-slate-600">&bull;</span>
+            <span>MODIS COLLECTION 6.1</span>
+            <span class="text-slate-600">&bull;</span>
+            <span>VIIRS 375M COLLECTION 2</span>
+            <span class="text-slate-600">&bull;</span>
+            <span class="text-emerald-400">NASA SPACE APPS 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- AUDIO BED, VOICEOVER & SFX TRACKS                                   -->
+      <!-- =================================================================== -->
+      <!-- Background Music Bed (Happy Beats Vol 12) -->
+      <audio id="bg-music" data-start="0" data-duration="25" data-track-index="10" data-volume="0.22" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"></audio>
+
+      <!-- Documentary Voiceover (Kokoro 82M: bm_george British Documentary Narrator) -->
+      <audio id="vo" data-start="0.5" data-duration="20.4" data-track-index="3" data-volume="1.0" src="assets/voiceover.wav"></audio>
+
+      <!-- Motion-Matched CC0 SFX Tracks -->
+      <audio id="sfx-bell-open" data-start="0.0" data-duration="1.48" data-track-index="11" data-volume="0.75" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+      <audio id="sfx-sensor-switch" data-start="4.1" data-duration="0.62" data-track-index="12" data-volume="0.65" src="assets/sfx/interface/switch_001.ogg"></audio>
+      <audio id="sfx-hud-reveal" data-start="8.74" data-duration="0.12" data-track-index="13" data-volume="0.70" src="assets/sfx/impact/impactSoft_medium_000.ogg"></audio>
+      <audio id="sfx-aoi-click" data-start="13.7" data-duration="0.06" data-track-index="14" data-volume="0.65" src="assets/sfx/ui/mouseclick1.ogg"></audio>
+      <audio id="sfx-cal-drop" data-start="15.5" data-duration="0.11" data-track-index="15" data-volume="0.60" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-final-lock" data-start="22.93" data-duration="0.12" data-track-index="16" data-volume="0.75" src="assets/sfx/impact/impactSoft_medium_000.ogg"></audio>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- DETERMINISTIC SEEKABLE GSAP TIMELINE                                -->
+    <!-- =================================================================== -->
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+
+      // -----------------------------------------------------------------------
+      // SCENE 1: THE PLANET (0.0s – 4.0s)
+      // -----------------------------------------------------------------------
+      tl.fromTo("#scene-1", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.0);
+      tl.fromTo("#s1-globe", { scale: 0.82, rotate: -10 }, { scale: 1.05, rotate: 12, duration: 4.0, ease: "none" }, 0.0);
+      tl.fromTo("#s1-title", { opacity: 0, y: 30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }, 0.4);
+      tl.fromTo("#s1-subtitle", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 1.2);
+      tl.to("#scene-1", { opacity: 0, scale: 1.1, filter: "blur(10px)", duration: 0.4, ease: "power2.in" }, 3.6);
+
+      // -----------------------------------------------------------------------
+      // SCENE 2: THE PROBLEM (4.0s – 8.74s)
+      // -----------------------------------------------------------------------
+      tl.fromTo("#scene-2", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 4.0);
+      tl.fromTo("#s2-headline", { opacity: 0, y: -25 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 4.1);
+      tl.fromTo("#s2-subheadline", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 4.8);
+      // Stagger cards in
+      tl.fromTo("#s2-modis-card", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.7, ease: "back.out(1.2)" }, 4.5);
+      tl.fromTo("#s2-viirs-card", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.7, ease: "back.out(1.2)" }, 5.2);
+      // Convergence wipe out at 8.74s strong cue
+      tl.to("#scene-2", { opacity: 0, scale: 0.94, filter: "blur(8px)", duration: 0.35, ease: "power2.in" }, 8.39);
+
+      // -----------------------------------------------------------------------
+      // SCENE 3: INTRODUCING CLEO (8.74s – 13.5s) // beat-locked: 8.74s
+      // -----------------------------------------------------------------------
+      tl.fromTo("#scene-3", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1.0, duration: 0.5, ease: "power3.out" }, 8.74);
+      tl.fromTo("#s3-brand-title", { opacity: 0, y: -20, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 8.85);
+      tl.fromTo("#s3-brand-subtitle", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 9.35);
+      tl.fromTo("#s3-map-interface", { opacity: 0, y: 35 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 9.5);
+      tl.to("#scene-3", { opacity: 0, x: -40, duration: 0.4, ease: "power2.in" }, 13.1);
+
+      // -----------------------------------------------------------------------
+      // SCENE 4: THE INTELLIGENCE (13.5s – 21.5s) // beat-locked: 13.11s
+      // -----------------------------------------------------------------------
+      tl.fromTo("#scene-4", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 13.5);
+      tl.fromTo("#s4-title", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 13.6);
+      // Sequential cards pop-in // beat-grid
+      tl.fromTo("#s4-card-1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 13.8);
+      tl.fromTo("#s4-card-2", { opacity: 0, y: 40, scale: 0.95 }, { opacity: 1, y: 0, scale: 1.0, duration: 0.7, ease: "back.out(1.3)" }, 15.3);
+      tl.fromTo("#s4-card-3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 17.5);
+      tl.to("#scene-4", { opacity: 0, scale: 1.08, filter: "blur(12px)", duration: 0.45, ease: "power2.in" }, 21.05);
+
+      // -----------------------------------------------------------------------
+      // SCENE 5: CLOSING & ATTRIBUTION (21.5s – 25.0s) // beat-locked: 22.93s
+      // -----------------------------------------------------------------------
+      tl.fromTo("#scene-5", { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1.0, duration: 0.6, ease: "power3.out" }, 21.5);
+      tl.fromTo("#s5-logo", { opacity: 0, y: 25, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power4.out" }, 21.8);
+      tl.fromTo("#s5-tagline", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 22.4);
+      tl.fromTo("#s5-subtagline", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 22.7);
+      tl.fromTo("#s5-attribution", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.2)" }, 22.93);
+
+      tl.seek(0);
+    </script>
+  </body>
+</html>
